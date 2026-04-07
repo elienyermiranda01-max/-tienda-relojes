@@ -1,21 +1,22 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ producto.nombre }} - {{ nombre_tienda }}{% endblock %}
+{% block title %}{{ producto.nombre }} - CHRONOS{% endblock %}
 
 {% block content %}
 <section class="product-detail">
     <div class="container">
         <div class="breadcrumb">
-            <a href="{{ url_for('index') }}">Inicio</a> / 
-            <a href="{{ url_for('productos') }}">Productos</a> / 
-            <a href="{{ url_for('productos', categoria=producto.categoria) }}">{{ producto.categoria|title }}</a> / 
-            {{ producto.nombre }}
+            <a href="{{ url_for('index') }}">INICIO</a> / 
+            <a href="{{ url_for('productos') }}">CATÁLOGO</a> / 
+            {{ producto.nombre|upper }}
         </div>
         
         <div class="product-detail-content">
             <div class="product-detail-image">
-                {% if producto.imagen %}
-                <img src="{{ url_for('uploaded_file', filename=producto.imagen) }}" alt="{{ producto.nombre }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 15px;">
+                {% if producto.imagen and producto.imagen.startswith('http') %}
+                <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" style="width: 100%; height: 100%; object-fit: cover;">
+                {% elif producto.imagen %}
+                <img src="{{ url_for('uploaded_file', filename=producto.imagen) }}" alt="{{ producto.nombre }}" style="width: 100%; height: 100%; object-fit: cover;">
                 {% else %}
                 <div class="product-placeholder-large">{{ producto.nombre[:1] }}</div>
                 {% endif %}
@@ -80,6 +81,12 @@
 .product-sizes {
     margin-bottom: 20px;
 }
+.product-sizes p {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--gray);
+    margin-bottom: 15px;
+}
 .size-options {
     display: flex;
     gap: 10px;
@@ -94,20 +101,33 @@
 }
 .size-tag {
     display: inline-block;
-    padding: 10px 20px;
-    background: #f0f0f0;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    font-weight: 500;
+    padding: 12px 20px;
+    background: transparent;
+    border: 1px solid var(--border);
+    font-size: 0.85rem;
+    letter-spacing: 1px;
     transition: all 0.3s;
 }
 .size-option input:checked + .size-tag {
-    background: #e94560;
-    color: white;
-    border-color: #e94560;
+    background: var(--accent);
+    color: var(--primary);
+    border-color: var(--accent);
 }
 .size-option:hover .size-tag {
-    border-color: #e94560;
+    border-color: var(--accent);
+}
+
+.breadcrumb {
+    margin-bottom: 40px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    color: var(--gray);
+}
+.breadcrumb a {
+    color: var(--gray);
+}
+.breadcrumb a:hover {
+    color: var(--accent);
 }
 </style>
 {% endblock %}
