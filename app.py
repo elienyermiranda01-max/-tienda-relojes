@@ -121,6 +121,26 @@ def init_db():
     ''')
     conn.commit()
     
+    # Actualizar fotos de productos si están vacías
+    fotos_default = {
+        'Reloj Classic Silver': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500',
+        'Reloj Sport Runner Pro': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500',
+        'Reloj Executive Gold': 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500',
+        'Reloj Diver Blue': 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=500',
+        'Reloj Minimalist Black': 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500',
+        'Reloj Smart Watch Pro': 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500',
+        'Reloj Lady Rose Gold': 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=500',
+        'Reloj Classic Brown': 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=500',
+        'Reloj Chronograph Silver': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+        'Reloj Skeleton Gold': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500',
+        'Reloj Fitness Tracker': 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500',
+        'Reloj Casual White': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500',
+    }
+    for nombre, url in fotos_default.items():
+        cursor.execute("UPDATE productos SET imagen = ? WHERE nombre LIKE ? AND (imagen IS NULL OR imagen = '')", (url, f'%{nombre}%'))
+    
+    conn.commit()
+    
     # Crear tabla de usuarios
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS usuarios (
@@ -239,9 +259,35 @@ def ensure_defaults():
         conn.commit()
     conn.close()
 
+def actualizar_fotos_db():
+    fotos = {
+        'Reloj Classic Silver': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500',
+        'Reloj Sport Runner Pro': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500',
+        'Reloj Executive Gold': 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500',
+        'Reloj Diver Blue': 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=500',
+        'Reloj Minimalist Black': 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500',
+        'Reloj Smart Watch Pro': 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500',
+        'Reloj Lady Rose Gold': 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=500',
+        'Reloj Classic Brown': 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=500',
+        'Reloj Chronograph Silver': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+        'Reloj Skeleton Gold': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500',
+        'Reloj Fitness Tracker': 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500',
+        'Reloj Casual White': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500',
+    }
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        for nombre, url in fotos.items():
+            cursor.execute("UPDATE productos SET imagen = ? WHERE nombre LIKE ?", (url, f'%{nombre}%'))
+        conn.commit()
+        conn.close()
+    except:
+        pass
+
 @app.context_processor
 def inject_config():
-    ensure_defaults()  # Asegurar que existan los datos
+    ensure_defaults()
+    actualizar_fotos_db()
     return {
         'nombre_tienda': get_config('nombre_tienda', 'Chronos Store'),
         'direccion_tienda': get_config('direccion', ''),
