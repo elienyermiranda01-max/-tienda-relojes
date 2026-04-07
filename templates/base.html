@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ nombre_tienda }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+            <div class="container nav-content">
+                <a href="{{ url_for('index') }}" class="logo">{{ nombre_tienda }}</a>
+                <ul class="nav-links">
+                    {% if session.get('user') %}
+                    <li><a href="{{ url_for('admin') }}">Panel Admin</a></li>
+                    <li><a href="{{ url_for('admin_contacto') }}">Config Contacto</a></li>
+                    <li><a href="{{ url_for('admin_products') }}">Productos</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('contacto') }}">Contacto</a></li>
+                </ul>
+                <div class="nav-icons">
+                    <form action="{{ url_for('buscar') }}" method="GET" class="search-form">
+                        <input type="text" name="q" placeholder="Buscar productos..." value="{{ request.args.get('q', '') }}">
+                        <button type="submit">🔍</button>
+                    </form>
+                    <a href="{{ url_for('ver_carrito') }}" class="cart-icon">
+                        🛒
+                        {% if session.get('carrito') %}
+                        <span class="cart-count">{{ session.get('carrito')|length }}</span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>{{ nombre_tienda }}</h3>
+                    <p>Tu tienda de moda online favorita.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <p>📍 {{ direccion_tienda }}</p>
+                    <p>📧 {{ email_tienda }}</p>
+                    <p>📱 {{ telefono_tienda }}</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 {{ nombre_tienda }}. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

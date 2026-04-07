@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Productos - Fashion Store{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>
+            {% if busqueda %}
+                Resultados para: "{{ busqueda }}"
+            {% elif categoria %}
+                {{ categoria|title }}
+            {% else %}
+                Todos los Productos
+            {% endif %}
+        </h1>
+        <p>Nueva colección 2026</p>
+    </div>
+</section>
+
+<section class="products-section">
+    <div class="container">
+        {% if busqueda %}
+        <div style="margin-bottom: 20px;">
+            <a href="{{ url_for('productos') }}" class="filter-btn">← Ver todos los productos</a>
+        </div>
+        {% endif %}
+        
+        <div class="filters">
+            <span>Filtrar por:</span>
+            <a href="{{ url_for('productos') }}" class="filter-btn {% if not categoria %}active{% endif %}">Todos</a>
+            <a href="{{ url_for('productos', categoria='hombre') }}" class="filter-btn {% if categoria == 'hombre' %}active{% endif %}">Hombre</a>
+            <a href="{{ url_for('productos', categoria='mujer') }}" class="filter-btn {% if categoria == 'mujer' %}active{% endif %}">Mujer</a>
+            <a href="{{ url_for('productos', categoria='accesorios') }}" class="filter-btn {% if categoria == 'accesorios' %}active{% endif %}">Accesorios</a>
+        </div>
+        
+        <div class="products-grid">
+            {% for producto in productos %}
+            <article class="product-card">
+                <a href="{{ url_for('producto_detalle', id=producto.id) }}" class="product-link">
+                    <div class="product-image">
+                        {% if producto.imagen %}
+                        <img src="{{ url_for('uploaded_file', filename=producto.imagen) }}" alt="{{ producto.nombre }}">
+                        {% else %}
+                        <div class="product-placeholder">{{ producto.nombre[:1] }}</div>
+                        {% endif %}
+                        <span class="product-badge">{{ producto.categoria }}</span>
+                    </div>
+                </a>
+                <div class="product-info">
+                    <a href="{{ url_for('producto_detalle', id=producto.id) }}" class="product-link">
+                        <span class="product-category">{{ producto.categoria }}</span>
+                        <h3>{{ producto.nombre }}</h3>
+                        <p>{{ producto.descripcion | truncate(60) }}</p>
+                    </a>
+                    <div class="product-footer">
+                        <span class="price">${{ "%.2f"|format(producto.precio) }}</span>
+                        {% if producto.stock > 0 %}
+                            {% if producto.stock < 5 %}
+                            <span class="stock-alert">Solo {{ producto.stock }} disponibles</span>
+                            {% endif %}
+                            <form action="{{ url_for('agregar_carrito', id=producto.id) }}" method="POST" class="quick-add-form" onsubmit="return confirmTalla(this, '{{ producto.tallas }}')">
+                                {% if producto.tallas %}
+                                <select name="talla" class="talla-select" required>
+                                    <option value="">Talla</option>
+                                    {% for talla in producto.tallas.split(',') %}
+                                    <option value="{{ talla.strip() }}">{{ talla.strip() }}</option>
+                                    {% endfor %}
+                                </select>
+                                {% else %}
+                                <input type="hidden" name="talla" value="Única">
+                                {% endif %}
+                                <button type="submit" class="btn btn-sm">🛒</button>
+                            </form>
+                        {% else %}
+                        <span class="out-stock-badge">Agotado</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% else %}
+            <p class="no-products">No hay productos {% if busqueda %}que coincidan con "{{ busqueda }}"{% else %}en esta categoría{% endif %}.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

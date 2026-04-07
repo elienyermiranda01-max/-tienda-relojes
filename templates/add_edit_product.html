@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if product %}Editar{% else %}Agregar{% endif %} Producto - Admin{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% if product %}Editar{% else %}Agregar{% endif %} Producto</h1>
+    </div>
+</section>
+
+<section class="form-section">
+    <div class="container">
+        <form method="POST" enctype="multipart/form-data" class="product-form">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" value="{{ product.nombre if product else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <textarea id="descripcion" name="descripcion" required>{{ product.descripcion if product else '' }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="precio">Precio</label>
+                <input type="number" step="0.01" id="precio" name="precio" value="{{ product.precio if product else '' }}" required>
+            </div>
+            <div class="form-group">
+                <label for="imagen">Imagen del Producto</label>
+                {% if product and product.imagen %}
+                <div style="margin-bottom: 10px;">
+                    <img src="{{ url_for('uploaded_file', filename=product.imagen) }}" alt="Imagen actual" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+                    <p>Imagen actual: {{ product.imagen }}</p>
+                </div>
+                {% endif %}
+                <input type="file" id="imagen" name="imagen" accept="image/*">
+                <small>Selecciona una imagen de tu computadora (jpg, png, gif)</small>
+            </div>
+            <div class="form-group">
+                <label for="categoria">Categoría</label>
+                <select id="categoria" name="categoria" required>
+                    <option value="hombre" {% if product and product.categoria == 'hombre' %}selected{% endif %}>Hombre</option>
+                    <option value="mujer" {% if product and product.categoria == 'mujer' %}selected{% endif %}>Mujer</option>
+                    <option value="accesorios" {% if product and product.categoria == 'accesorios' %}selected{% endif %}>Accesorios</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="stock">Stock</label>
+                <input type="number" id="stock" name="stock" value="{{ product.stock if product else 10 }}" required>
+            </div>
+            <div class="form-group">
+                <label for="tallas">Tallas disponibles</label>
+                <input type="text" id="tallas" name="tallas" value="{{ product.tallas if product else '' }}" placeholder="Ej: S,M,L,XL o 38,39,40,41">
+                <small>Separa las tallas con coma. Ej: "S,M,L,XL" o "38,39,40,41" o "Única"</small>
+            </div>
+            <button type="submit" class="btn-primary">{% if product %}Actualizar{% else %}Agregar{% endif %} Producto</button>
+            <a href="{{ url_for('admin_products') }}" class="btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

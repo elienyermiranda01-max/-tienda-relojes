@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ nombre_tienda }} - Relojes de Moda{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <h1>El tiempo tiene estilo</h1>
+        <p>Descubre los mejores relojes para cada momento de tu vida</p>
+        <div class="hero-btns">
+            <a href="{{ url_for('productos') }}" class="btn btn-primary">Ver Catálogo</a>
+            <a href="{{ url_for('contacto') }}" class="btn btn-secondary" style="background: transparent; border: 2px solid white;">Contactar</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <div class="features-grid">
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <rect x="1" y="6" width="22" height="12" rx="2"/>
+                        <path d="M12 12h.01M17 12h.01M7 12h.01"/>
+                    </svg>
+                </div>
+                <h3>Garantía 2 Años</h3>
+                <p>En todos nuestros relojes</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                <h3>Envío Gratis</h3>
+                <p>En pedidos mayores a $50</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <h3>Soporte 24/7</h3>
+                <p>WhatsApp directo</p>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                    </svg>
+                </div>
+                <h3>Devolución 30 Días</h3>
+                <p>Si no estás satisfecho</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="categories">
+    <div class="container">
+        <h2 class="section-title">Colecciones</h2>
+        <div class="categories-grid">
+            <a href="{{ url_for('productos', categoria='clasicos') }}" class="category-card">
+                <div class="category-icon">⌚</div>
+                <h3>Clásicos</h3>
+                <p>Elegancia atemporal →</p>
+            </a>
+            <a href="{{ url_for('productos', categoria='deportivos') }}" class="category-card">
+                <div class="category-icon">🏃</div>
+                <h3>Deportivos</h3>
+                <p>Rendimiento y estilo →</p>
+            </a>
+            <a href="{{ url_for('productos', categoria='mujer') }}" class="category-card">
+                <div class="category-icon">💎</div>
+                <h3>Mujer</h3>
+                <p>Diseño femenino →</p>
+            </a>
+            <a href="{{ url_for('productos', categoria='inteligentes') }}" class="category-card">
+                <div class="category-icon">📱</div>
+                <h3>Inteligentes</h3>
+                <p>Smart watches →</p>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="featured-products">
+    <div class="container">
+        <h2 class="section-title">Relojes Destacados</h2>
+        <div class="products-grid">
+            {% for producto in productos %}
+            <a href="{{ url_for('producto_detalle', id=producto.id) }}" class="product-card-link">
+            <article class="product-card">
+                <div class="product-image">
+                    {% if producto.imagen and producto.imagen.startswith('http') %}
+                    <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+                    {% elif producto.imagen %}
+                    <img src="{{ url_for('uploaded_file', filename=producto.imagen) }}" alt="{{ producto.nombre }}">
+                    {% else %}
+                    <div class="product-placeholder">{{ producto.nombre[:1] }}</div>
+                    {% endif %}
+                    <span class="product-badge">{{ producto.categoria }}</span>
+                </div>
+                <div class="product-info">
+                    <span class="product-category">{{ producto.categoria }}</span>
+                    <h3>{{ producto.nombre }}</h3>
+                    <p>{{ producto.descripcion | truncate(60) }}</p>
+                    <div class="product-footer">
+                        <span class="price">${{ "%.2f"|format(producto.precio) }}</span>
+                        {% if producto.stock > 0 %}
+                            {% if producto.stock < 5 %}
+                            <span class="stock-alert">Solo {{ producto.stock }} disponibles</span>
+                            {% endif %}
+                            <form action="{{ url_for('agregar_carrito', id=producto.id) }}" method="POST" class="quick-add-form">
+                                <input type="hidden" name="talla" value="Única">
+                                <button type="submit" class="btn btn-sm">🛒</button>
+                            </form>
+                        {% else %}
+                        <span class="out-stock-badge">Agotado</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('productos') }}" class="btn btn-secondary">Ver Todos los Relojes</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

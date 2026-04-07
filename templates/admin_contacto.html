@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Configurar Contacto - Admin{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Configurar Información de Contacto</h1>
+    </div>
+</section>
+
+<section class="form-section">
+    <div class="container">
+        <form method="POST" class="product-form">
+            <div class="form-group">
+                <label for="nombre_tienda">Nombre de la Tienda</label>
+                <input type="text" id="nombre_tienda" name="nombre_tienda" value="{{ config.nombre_tienda }}" required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" name="direccion" value="{{ config.direccion }}" required>
+            </div>
+            <div class="form-group">
+                <label for="email_contacto">Email de Contacto</label>
+                <input type="email" id="email_contacto" name="email_contacto" value="{{ config.email_contacto }}" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono / WhatsApp (con código de país)</label>
+                <input type="text" id="telefono" name="telefono" value="{{ config.telefono }}" placeholder="+58 412-123-4567" required>
+                <small>Incluye el código de país. Ej: +58 para Venezuela</small>
+            </div>
+            <div class="form-group">
+                <label for="mensaje_whatsapp">Mensaje de WhatsApp</label>
+                <textarea id="mensaje_whatsapp" name="mensaje_whatsapp" rows="4" required>{{ config.mensaje_whatsapp }}</textarea>
+                <small>Usa {nombre} para el nombre del cliente, {productos} para la lista de productos, {total} para el total</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+            <a href="{{ url_for('admin') }}" class="btn btn-secondary">Volver al Panel</a>
+        </form>
+    </div>
+</section>
+{% endblock %}

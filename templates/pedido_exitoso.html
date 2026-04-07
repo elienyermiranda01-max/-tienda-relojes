@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block title %}Pedido Exitoso - {{ nombre_tienda }}{% endblock %}
+
+{% block content %}
+<section class="success-section">
+    <div class="container">
+        <div class="success-content">
+            <div class="success-icon">✅</div>
+            <h1>¡Pedido Recibido!</h1>
+            <p>Gracias por tu compra. Confirma tu pedido enviando un mensaje.</p>
+            
+            {% if pedido_info %}
+            <div class="whatsapp-section">
+                <a href="https://wa.me/{{ pedido_info.telefono }}?text={{ pedido_info.mensaje|urlencode }}" target="_blank" class="btn-whatsapp">
+                    💬 Enviar pedido por WhatsApp
+                </a>
+            </div>
+            {% endif %}
+            
+            <div class="order-details">
+                <h3>¿Qué sigue?</h3>
+                <ol>
+                    <li>Envía tu pedido por WhatsApp haciendo click en el botón verde</li>
+                    <li>Te contactaremos para confirmar el pago</li>
+                    <li>Prepararemos tu pedido para el envío</li>
+                    <li>Recibirás tu pedido en la dirección indicada</li>
+                </ol>
+            </div>
+            
+            <div class="success-actions">
+                <a href="{{ url_for('index') }}" class="btn btn-primary">Volver al Inicio</a>
+                <a href="{{ url_for('productos') }}" class="btn btn-secondary">Seguir Comprando</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+.whatsapp-section {
+    margin: 30px 0;
+}
+.btn-whatsapp {
+    display: inline-block;
+    padding: 15px 40px;
+    background: #25D366;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+.btn-whatsapp:hover {
+    background: #128C7E;
+    transform: scale(1.05);
+}
+</style>
+{% endblock %}

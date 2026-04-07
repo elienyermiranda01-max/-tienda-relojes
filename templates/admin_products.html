@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Productos - Admin{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Gestionar Productos</h1>
+        <p><a href="{{ url_for('add_product') }}" class="btn-primary">Agregar Producto</a></p>
+    </div>
+</section>
+
+<section class="products-section">
+    <div class="container">
+        <div class="products-grid">
+            {% for producto in productos %}
+            <div class="product-card">
+                <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" onerror="this.src='https://via.placeholder.com/200x200?text=Sin+Imagen'">
+                <h3>{{ producto.nombre }}</h3>
+                <p>{{ producto.descripcion }}</p>
+                <p class="price">${{ producto.precio }}</p>
+                <p>Categoría: {{ producto.categoria }}</p>
+                <p>Stock: {{ producto.stock }}</p>
+                <div class="product-actions">
+                    <a href="{{ url_for('edit_product', id=producto.id) }}" class="btn-secondary">Editar</a>
+                    <a href="{{ url_for('delete_product', id=producto.id) }}" class="btn-danger" onclick="return confirm('¿Eliminar este producto?')">Eliminar</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
