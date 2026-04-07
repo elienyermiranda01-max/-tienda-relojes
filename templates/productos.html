@@ -1,37 +1,36 @@
 {% extends 'base.html' %}
 
-{% block title %}Productos - Fashion Store{% endblock %}
+{% block title %}Catálogo - CHRONOS{% endblock %}
 
 {% block content %}
 <section class="page-header">
     <div class="container">
         <h1>
             {% if busqueda %}
-                Resultados para: "{{ busqueda }}"
+                RESULTADOS: "{{ busqueda }}"
             {% elif categoria %}
-                {{ categoria|title }}
+                {{ categoria|upper }}
             {% else %}
-                Todos los Productos
+                CATÁLOGO
             {% endif %}
         </h1>
-        <p>Nueva colección 2026</p>
     </div>
 </section>
 
 <section class="products-section">
     <div class="container">
         {% if busqueda %}
-        <div style="margin-bottom: 20px;">
-            <a href="{{ url_for('productos') }}" class="filter-btn">← Ver todos los productos</a>
+        <div style="margin-bottom: 30px;">
+            <a href="{{ url_for('productos') }}" class="filter-btn">← Ver todo</a>
         </div>
         {% endif %}
         
         <div class="filters">
-            <span>Filtrar por:</span>
-            <a href="{{ url_for('productos') }}" class="filter-btn {% if not categoria %}active{% endif %}">Todos</a>
-            <a href="{{ url_for('productos', categoria='hombre') }}" class="filter-btn {% if categoria == 'hombre' %}active{% endif %}">Hombre</a>
-            <a href="{{ url_for('productos', categoria='mujer') }}" class="filter-btn {% if categoria == 'mujer' %}active{% endif %}">Mujer</a>
-            <a href="{{ url_for('productos', categoria='accesorios') }}" class="filter-btn {% if categoria == 'accesorios' %}active{% endif %}">Accesorios</a>
+            <a href="{{ url_for('productos') }}" class="filter-btn {% if not categoria %}active{% endif %}">TODOS</a>
+            <a href="{{ url_for('productos', categoria='clasicos') }}" class="filter-btn {% if categoria == 'clasicos' %}active{% endif %}">CLÁSICOS</a>
+            <a href="{{ url_for('productos', categoria='deportivos') }}" class="filter-btn {% if categoria == 'deportivos' %}active{% endif %}">DEPORTIVOS</a>
+            <a href="{{ url_for('productos', categoria='mujer') }}" class="filter-btn {% if categoria == 'mujer' %}active{% endif %}">MUJER</a>
+            <a href="{{ url_for('productos', categoria='inteligentes') }}" class="filter-btn {% if categoria == 'inteligentes' %}active{% endif %}">INTELIGENTES</a>
         </div>
         
         <div class="products-grid">
@@ -39,7 +38,9 @@
             <article class="product-card">
                 <a href="{{ url_for('producto_detalle', id=producto.id) }}" class="product-link">
                     <div class="product-image">
-                        {% if producto.imagen %}
+                        {% if producto.imagen and producto.imagen.startswith('http') %}
+                        <img src="{{ producto.imagen }}" alt="{{ producto.nombre }}">
+                        {% elif producto.imagen %}
                         <img src="{{ url_for('uploaded_file', filename=producto.imagen) }}" alt="{{ producto.nombre }}">
                         {% else %}
                         <div class="product-placeholder">{{ producto.nombre[:1] }}</div>
@@ -56,24 +57,12 @@
                     <div class="product-footer">
                         <span class="price">${{ "%.2f"|format(producto.precio) }}</span>
                         {% if producto.stock > 0 %}
-                            {% if producto.stock < 5 %}
-                            <span class="stock-alert">Solo {{ producto.stock }} disponibles</span>
-                            {% endif %}
-                            <form action="{{ url_for('agregar_carrito', id=producto.id) }}" method="POST" class="quick-add-form" onsubmit="return confirmTalla(this, '{{ producto.tallas }}')">
-                                {% if producto.tallas %}
-                                <select name="talla" class="talla-select" required>
-                                    <option value="">Talla</option>
-                                    {% for talla in producto.tallas.split(',') %}
-                                    <option value="{{ talla.strip() }}">{{ talla.strip() }}</option>
-                                    {% endfor %}
-                                </select>
-                                {% else %}
+                            <form action="{{ url_for('agregar_carrito', id=producto.id) }}" method="POST" class="quick-add-form" onsubmit="return validarTalla(this)">
                                 <input type="hidden" name="talla" value="Única">
-                                {% endif %}
-                                <button type="submit" class="btn btn-sm">🛒</button>
+                                <button type="submit" class="btn-cart">🛒</button>
                             </form>
                         {% else %}
-                        <span class="out-stock-badge">Agotado</span>
+                        <span class="out-stock-badge">AGOTADO</span>
                         {% endif %}
                     </div>
                 </div>
@@ -84,4 +73,15 @@
         </div>
     </div>
 </section>
+
+<script>
+function validarTalla(form) {
+    const talla = form.querySelector('select[name="talla"]');
+    if (talla && !talla.value) {
+        alert('Por favor selecciona una talla');
+        return false;
+    }
+    return true;
+}
+</script>
 {% endblock %}
