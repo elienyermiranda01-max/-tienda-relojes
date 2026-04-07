@@ -172,18 +172,18 @@ def init_db():
     cursor.execute('SELECT COUNT(*) FROM productos')
     if cursor.fetchone()[0] == 0:
         productos_ejemplo = [
-            ('Reloj Classic Silver', 'Reloj clásico de acero inoxidable, sumergible 50m', 89.99, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400', 'clasicos', 'Única'),
-            ('Reloj Sport Runner Pro', 'Reloj deportivo con cronómetro y resistencia al agua', 129.99, 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400', 'deportivos', 'Única'),
-            ('Reloj Executive Gold', 'Reloj ejecutivo con baño en oro, elegante y sofisticado', 159.99, 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400', 'premium', 'Única'),
-            ('Reloj Diver Blue', 'Reloj de buceo profesional, sumergible 200m', 149.99, 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=400', 'deportivos', 'Única'),
-            ('Reloj Minimalist Black', 'Diseño minimalista en negro mate, perfecto para diario', 79.99, 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=400', 'clasicos', 'Única'),
-            ('Reloj Smart Watch Pro', 'Reloj inteligente con monitor cardíaco y GPS', 199.99, 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400', 'inteligentes', 'Única'),
-            ('Reloj Lady Rose Gold', 'Reloj femenino con acabado rose gold y cristal Swarovski', 119.99, 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=400', 'mujer', 'Única'),
-            ('Reloj Classic Brown', 'Reloj clásico con correa de cuero genuino', 69.99, 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=400', 'clasicos', 'Única'),
-            ('Reloj Chronograph Silver', 'Cronógrafo profesional con funciones múltiples', 139.99, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400', 'premium', 'Única'),
-            ('Pulsera de Cuero Premium', 'Pulsera de cuero genuino con broche de acero', 24.99, 'https://images.unsplash.com/photo-1611085583191-a3b181a88401?w=400', 'accesorios', 'Única'),
-            ('Caja de Reloj Velero', 'Caja organizadora para hasta 12 relojes', 34.99, 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=400', 'accesorios', 'Única'),
-            ('Kit de Limpieza Reloj', 'Kit completo para mantenimiento de relojes', 14.99, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400', 'accesorios', 'Única'),
+            ('Reloj Classic Silver', 'Reloj clásico de acero inoxidable, sumergible 50m', 89.99, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500', 'clasicos', 'Única'),
+            ('Reloj Sport Runner Pro', 'Reloj deportivo con cronómetro y resistencia al agua', 129.99, 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500', 'deportivos', 'Única'),
+            ('Reloj Executive Gold', 'Reloj ejecutivo con baño en oro, elegante y sofisticado', 159.99, 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500', 'premium', 'Única'),
+            ('Reloj Diver Blue', 'Reloj de buceo profesional, sumergible 200m', 149.99, 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=500', 'deportivos', 'Única'),
+            ('Reloj Minimalist Black', 'Diseño minimalista en negro mate, perfecto para diario', 79.99, 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500', 'clasicos', 'Única'),
+            ('Reloj Smart Watch Pro', 'Reloj inteligente con monitor cardíaco y GPS', 199.99, 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500', 'inteligentes', 'Única'),
+            ('Reloj Lady Rose Gold', 'Reloj femenino con acabado rose gold y cristal', 119.99, 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=500', 'mujer', 'Única'),
+            ('Reloj Classic Brown', 'Reloj clásico con correa de cuero genuino', 69.99, 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=500', 'clasicos', 'Única'),
+            ('Reloj Chronograph Silver', 'Cronógrafo profesional con funciones múltiples', 139.99, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500', 'premium', 'Única'),
+            ('Reloj Skeleton Gold', 'Reloj con mecanismo visible, diseño exclusivo', 179.99, 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500', 'premium', 'Única'),
+            ('Reloj Fitness Tracker', 'Pulsera inteligente para ejercicios y salud', 89.99, 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500', 'inteligentes', 'Única'),
+            ('Reloj Casual White', 'Reloj casual de esfera blanca, resistente', 59.99, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500', 'clasicos', 'Única'),
         ]
         cursor.executemany(
             'INSERT INTO productos (nombre, descripcion, precio, imagen, categoria, tallas) VALUES (?, ?, ?, ?, ?, ?)',
@@ -238,14 +238,14 @@ def ensure_defaults():
     cursor.execute('SELECT COUNT(*) FROM productos')
     if cursor.fetchone()[0] == 0:
         productos = [
-            ('Reloj Classic Silver', 'Reloj clásico de acero inoxidable', 89.99, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=400', 'clasicos', 'Única'),
-            ('Reloj Sport Runner', 'Reloj deportivo profesional', 129.99, 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=400', 'deportivos', 'Única'),
-            ('Reloj Executive Gold', 'Reloj ejecutivo dorado', 159.99, 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=400', 'premium', 'Única'),
-            ('Reloj Diver Blue', 'Reloj de buceo', 149.99, 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=400', 'deportivos', 'Única'),
-            ('Reloj Minimalist Black', 'Diseño minimalista negro', 79.99, 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=400', 'clasicos', 'Única'),
-            ('Reloj Smart Watch', 'Reloj inteligente', 199.99, 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=400', 'inteligentes', 'Única'),
-            ('Reloj Lady Rose', 'Reloj femenino rose gold', 119.99, 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=400', 'mujer', 'Única'),
-            ('Reloj Classic Brown', 'Reloj clásico marrón', 69.99, 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=400', 'clasicos', 'Única'),
+            ('Reloj Classic Silver', 'Reloj clásico de acero inoxidable, sumergible 50m', 89.99, 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500', 'clasicos', 'Única'),
+            ('Reloj Sport Runner Pro', 'Reloj deportivo con cronómetro y resistencia al agua', 129.99, 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500', 'deportivos', 'Única'),
+            ('Reloj Executive Gold', 'Reloj ejecutivo con baño en oro, elegante', 159.99, 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500', 'premium', 'Única'),
+            ('Reloj Diver Blue', 'Reloj de buceo profesional, sumergible 200m', 149.99, 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=500', 'deportivos', 'Única'),
+            ('Reloj Minimalist Black', 'Diseño minimalista en negro mate, perfecto para diario', 79.99, 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500', 'clasicos', 'Única'),
+            ('Reloj Smart Watch Pro', 'Reloj inteligente con monitor cardíaco y GPS', 199.99, 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500', 'inteligentes', 'Única'),
+            ('Reloj Lady Rose Gold', 'Reloj femenino con acabado rose gold y cristal', 119.99, 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=500', 'mujer', 'Única'),
+            ('Reloj Classic Brown', 'Reloj clásico con correa de cuero genuino', 69.99, 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=500', 'clasicos', 'Única'),
         ]
         for p in productos:
             cursor.execute('INSERT INTO productos (nombre, descripcion, precio, imagen, categoria, tallas) VALUES (?, ?, ?, ?, ?, ?)', p)

@@ -8,36 +8,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <header class="header">
-        <nav class="navbar">
-            <div class="container nav-content">
-                <a href="{{ url_for('index') }}" class="logo">{{ nombre_tienda }}</a>
-                <ul class="nav-links">
-                    {% if session.get('user') %}
-                    <li><a href="{{ url_for('admin') }}">Panel Admin</a></li>
-                    <li><a href="{{ url_for('admin_contacto') }}">Config Contacto</a></li>
-                    <li><a href="{{ url_for('admin_products') }}">Productos</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-                    {% else %}
-                    <li><a href="{{ url_for('login') }}">Login</a></li>
+    <nav class="navbar">
+        <div class="nav-content">
+            <a href="{{ url_for('index') }}" class="logo">CHRONOS</a>
+            <ul class="nav-links">
+                <li><a href="{{ url_for('productos') }}">CATÁLOGO</a></li>
+                <li><a href="{{ url_for('contacto') }}">CONTACTO</a></li>
+                {% if session.get('user') %}
+                <li><a href="{{ url_for('admin') }}">ADMIN</a></li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}">LOGIN</a></li>
+                {% endif %}
+            </ul>
+            <div class="nav-icons">
+                <form action="{{ url_for('buscar') }}" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Buscar..." value="{{ request.args.get('q', '') }}">
+                    <button type="submit">🔍</button>
+                </form>
+                <a href="{{ url_for('ver_carrito') }}" class="cart-icon">
+                    🛒
+                    {% if session.get('carrito') %}
+                    <span class="cart-count">{{ session.get('carrito')|length }}</span>
                     {% endif %}
-                    <li><a href="{{ url_for('contacto') }}">Contacto</a></li>
-                </ul>
-                <div class="nav-icons">
-                    <form action="{{ url_for('buscar') }}" method="GET" class="search-form">
-                        <input type="text" name="q" placeholder="Buscar productos..." value="{{ request.args.get('q', '') }}">
-                        <button type="submit">🔍</button>
-                    </form>
-                    <a href="{{ url_for('ver_carrito') }}" class="cart-icon">
-                        🛒
-                        {% if session.get('carrito') %}
-                        <span class="cart-count">{{ session.get('carrito')|length }}</span>
-                        {% endif %}
-                    </a>
-                </div>
+                </a>
             </div>
-        </nav>
-    </header>
+        </div>
+    </nav>
 
     <main>
         {% block content %}{% endblock %}
@@ -47,18 +43,32 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>{{ nombre_tienda }}</h3>
-                    <p>Tu tienda de moda online favorita.</p>
+                    <h3>CHRONOS</h3>
+                    <p>El tiempo tiene estilo. Relojes de moda para cada momento.</p>
                 </div>
                 <div class="footer-section">
-                    <h4>Contacto</h4>
-                    <p>📍 {{ direccion_tienda }}</p>
-                    <p>📧 {{ email_tienda }}</p>
-                    <p>📱 {{ telefono_tienda }}</p>
+                    <h4>CONTACTO</h4>
+                    <ul>
+                        <li>📍 {{ direccion_tienda }}</li>
+                        <li>📧 {{ email_tienda }}</li>
+                        <li>📱 {{ telefono_tienda }}</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>HORARIOS</h4>
+                    <ul>
+                        <li>Lun - Vie: 9AM - 7PM</li>
+                        <li>Sáb: 10AM - 5PM</li>
+                        <li>Dom: Cerrado</li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>WHATSAPP</h4>
+                    <a href="https://wa.me/{{ telefono_tienda.replace('+', '').replace('-', '').replace(' ', '') }}" class="btn" style="margin-top: 10px;">ESCRIBIR</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 {{ nombre_tienda }}. Todos los derechos reservados.</p>
+                <p>© 2026 CHRONOS - Valencia, Venezuela</p>
             </div>
         </div>
     </footer>
