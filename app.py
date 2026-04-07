@@ -37,31 +37,18 @@ def error_test():
 @app.route('/actualizar-fotos')
 def actualizar_fotos():
     imagenes = {
-        'Camisa Casual Azul': 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400',
-        'Camisa Casual': 'https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=400',
-        'Pantalón Jeans': 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400',
-        'Pantalón Jeans Slim': 'https://images.unsplash.com/photo-1542272604-787c3835535d?w=400',
-        'Zapatillas': 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',
-        'Zapatillas Deportivas': 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',
-        'Camiseta': 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
-        'Camiseta Estampada': 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
-        'Vestido': 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400',
-        'Vestido Negro': 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400',
-        'Vestido Elegante': 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400',
-        'Blusa': 'https://images.unsplash.com/photo-1564257631407-4d8ee3a2c86?w=400',
-        'Blusa Floral': 'https://images.unsplash.com/photo-1564257631407-4d8ee3a2c86?w=400',
-        'Falda': 'https://images.unsplash.com/photo-1583496661160-fb5886a0uj5b?w=400',
-        'Falda Mini': 'https://images.unsplash.com/photo-1583496661160-fb5886a0uj5b?w=400',
-        'Bolso': 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400',
-        'Bolso de Mano': 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400',
-        'Gorra': 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400',
-        'Gorra Urbana': 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400',
-        'Lentes': 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400',
-        'Lentes de Sol': 'https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400',
-        'Cinturón': 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400',
-        'Cinturón de Cuero': 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400',
-        'Reloj': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
-        'Reloj Digital': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400',
+        'Reloj Classic Silver': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500',
+        'Reloj Sport Runner Pro': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500',
+        'Reloj Executive Gold': 'https://images.unsplash.com/photo-1542496658-e33a6d0d50f6?w=500',
+        'Reloj Diver Blue': 'https://images.unsplash.com/photo-1548171915-e79a380a2a4b?w=500',
+        'Reloj Minimalist Black': 'https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=500',
+        'Reloj Smart Watch Pro': 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500',
+        'Reloj Lady Rose Gold': 'https://images.unsplash.com/photo-1518131672697-613becd4fab5?w=500',
+        'Reloj Classic Brown': 'https://images.unsplash.com/photo-1455849318743-b2233052fcff?w=500',
+        'Reloj Chronograph Silver': 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+        'Reloj Skeleton Gold': 'https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=500',
+        'Reloj Fitness Tracker': 'https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500',
+        'Reloj Casual White': 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=500',
     }
     
     conn = get_db()
@@ -148,10 +135,10 @@ def init_db():
     # Agregar valores de configuración por defecto
     config_default = [
         ('direccion', 'Valencia, Carabobo'),
-        ('email_contacto', 'info@fashionstore.com'),
+        ('email_contacto', 'info@chronosstore.com'),
         ('telefono', '+58 412-107-3377'),
-        ('nombre_tienda', 'Fashion Store'),
-        ('mensaje_whatsapp', 'Hola! Soy {nombre}\n\nMi pedido:\n{productos}\n\nTotal: ${total}'),
+        ('nombre_tienda', 'Chronos Store'),
+        ('mensaje_whatsapp', 'Hola! Soy {nombre}\n\nMi pedido de relojes:\n{productos}\n\nTotal: ${total}'),
     ]
     for clave, valor in config_default:
         try:
